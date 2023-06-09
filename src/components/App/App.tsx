@@ -1,4 +1,4 @@
-import { Main } from '../Main';
+import { Main } from '@/components/Main';
 
 export const App = (): JSX.Element => {
 	return (
