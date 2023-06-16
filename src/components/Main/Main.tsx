@@ -4,6 +4,8 @@ import { Result } from '@/components/Result';
 
 import styles from './Main.module.scss';
 
+const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
 export const Main = (): JSX.Element => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
@@ -11,20 +13,17 @@ export const Main = (): JSX.Element => {
 	const [word, setWord] = useState('');
 	const [mistakes, setMistakes] = useState(0);
 
-	const getRandomWord = async () => {
-		const res = fetch('https://api.api-ninjas.com/v1/randomword?type=noun', {
+	const getRandomWord = async () =>
+		fetch('https://api.api-ninjas.com/v1/randomword?type=noun', {
 			headers: {
 				'X-Api-Key': import.meta.env.VITE_API_KEY,
 			},
 		});
 
-		return res;
-	};
-
 	const guessLetter = (ev: KeyboardEvent) => {
-		const keyPressed = ev.key;
+		const keyPressed = ev.key.toLowerCase();
 
-		if (!isPlaying) {
+		if (!isPlaying || !alphabet.includes(keyPressed)) {
 			return;
 		}
 
@@ -44,6 +43,25 @@ export const Main = (): JSX.Element => {
 		});
 	};
 
+	const startNewGame = async function () {
+		setIsPlaying(true);
+		setWord('');
+		setIsLoading(true);
+		setMistakes(0);
+
+		await getRandomWord()
+			.then((res) => res.json())
+			.then(({ word }) => {
+				setWordToGuess(word.toLowerCase());
+
+				return word;
+			})
+			.then((resultWord) => {
+				setWord('_'.repeat(resultWord.length));
+				setIsLoading(false);
+			});
+	};
+
 	return (
 		<main
 			className={styles.main}
@@ -52,23 +70,7 @@ export const Main = (): JSX.Element => {
 		>
 			<button
 				className={styles.button}
-				onClick={async () => {
-					setIsPlaying(true);
-					setIsLoading(true);
-					setMistakes(0);
-
-					await getRandomWord()
-						.then((res) => res.json())
-						.then(({ word }) => {
-							setWordToGuess(word.toLowerCase());
-							setIsLoading(false);
-
-							return word;
-						})
-						.then((resultWord) => {
-							setWord('_'.repeat(resultWord.length));
-						});
-				}}
+				onClick={startNewGame}
 			>
 				Start
 			</button>
@@ -80,6 +82,16 @@ export const Main = (): JSX.Element => {
 				word={word}
 				mistakes={mistakes}
 			/>
+			{!isPlaying && word !== wordToGuess && word.length > 0 && (
+				<button
+					className={styles.button}
+					onClick={() => {
+						setWord(wordToGuess);
+					}}
+				>
+					Reveal the word!
+				</button>
+			)}
 		</main>
 	);
 };
