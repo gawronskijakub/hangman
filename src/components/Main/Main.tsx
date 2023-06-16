@@ -12,6 +12,7 @@ export const Main = (): JSX.Element => {
 	const [wordToGuess, setWordToGuess] = useState('');
 	const [word, setWord] = useState('');
 	const [mistakes, setMistakes] = useState(0);
+	const [usedLetters, setUsedLetters] = useState('');
 
 	const getRandomWord = async () =>
 		fetch('https://api.api-ninjas.com/v1/randomword?type=noun', {
@@ -23,9 +24,10 @@ export const Main = (): JSX.Element => {
 	const guessLetter = (ev: KeyboardEvent) => {
 		const keyPressed = ev.key.toLowerCase();
 
-		if (!isPlaying || !alphabet.includes(keyPressed)) {
+		if (!isPlaying || !alphabet.includes(keyPressed) || usedLetters.includes(keyPressed)) {
 			return;
 		}
+		setUsedLetters((u) => `${u}${keyPressed}`);
 
 		if (!wordToGuess.includes(keyPressed)) {
 			setMistakes((m) => m + 1);
@@ -44,9 +46,10 @@ export const Main = (): JSX.Element => {
 	};
 
 	const startNewGame = async function () {
+		setIsLoading(true);
 		setIsPlaying(true);
 		setWord('');
-		setIsLoading(true);
+		setUsedLetters('');
 		setMistakes(0);
 
 		await getRandomWord()
