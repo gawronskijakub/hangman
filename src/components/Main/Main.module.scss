@@ -7,9 +7,32 @@
 	height: 100dvh;
 	font-size: 2rem;
 	font-family: monospace;
-	letter-spacing: 5px;
 }
 
 .button {
 	padding: 8px 16px;
+}
+
+.word {
+	letter-spacing: 5px;
+}
+
+.used {
+	text-align: center;
+
+	span {
+		letter-spacing: 3px;
+	}
+}
+
+.wrong {
+	color: red;
+}
+
+.correct {
+	color: green;
+}
+
+p:not(.word) {
+	font-size: 1.25rem;
 }

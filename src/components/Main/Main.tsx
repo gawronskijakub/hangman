@@ -1,4 +1,4 @@
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useRef, useState } from 'react';
 
 import { Result } from '@/components/Result';
 
@@ -7,6 +7,7 @@ import styles from './Main.module.scss';
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
 export const Main = (): JSX.Element => {
+	const mainRef = useRef<HTMLElement>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [wordToGuess, setWordToGuess] = useState('');
@@ -45,12 +46,14 @@ export const Main = (): JSX.Element => {
 		});
 	};
 
-	const startNewGame = async function () {
+	const startNewGame = async () => {
 		setIsLoading(true);
 		setIsPlaying(true);
 		setWord('');
 		setUsedLetters('');
 		setMistakes(0);
+
+		mainRef.current!.focus();
 
 		await getRandomWord()
 			.then((res) => res.json())
@@ -70,15 +73,33 @@ export const Main = (): JSX.Element => {
 			className={styles.main}
 			tabIndex={-1}
 			onKeyDown={guessLetter}
+			ref={mainRef}
 		>
-			<button
-				className={styles.button}
-				onClick={startNewGame}
-			>
-				Start
-			</button>
-			{isLoading ? <p>Loading...</p> : <p>{word}</p>}
+			{!isPlaying && (
+				<button
+					className={styles.button}
+					onClick={startNewGame}
+				>
+					Start
+				</button>
+			)}
+			{isLoading ? <p>Loading...</p> : <p className={styles.word}>{word}</p>}
 			{isPlaying && <p>{`Mistakes: ${mistakes}`}</p>}
+			{isPlaying && (
+				<div className={styles.used}>
+					Used letters:{' '}
+					<p>
+						{alphabet.split('').map((letter) => (
+							<span
+								key={letter}
+								className={usedLetters.includes(letter) ? (word.includes(letter) ? styles.correct : styles.wrong) : ''}
+							>
+								{letter}
+							</span>
+						))}
+					</p>
+				</div>
+			)}
 			<Result
 				isPlaying={isPlaying}
 				setIsPlaying={setIsPlaying}
