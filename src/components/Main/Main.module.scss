@@ -1,0 +1,38 @@
+.main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 40px;
+	height: 100dvh;
+	font-size: 2rem;
+	font-family: monospace;
+}
+
+.button {
+	padding: 8px 16px;
+}
+
+.word {
+	letter-spacing: 5px;
+}
+
+.used {
+	text-align: center;
+
+	span {
+		letter-spacing: 3px;
+	}
+}
+
+.wrong {
+	color: red;
+}
+
+.correct {
+	color: green;
+}
+
+p:not(.word) {
+	font-size: 1.25rem;
+}
