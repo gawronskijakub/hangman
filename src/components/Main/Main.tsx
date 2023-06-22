@@ -12,8 +12,8 @@ export const Main = (): JSX.Element => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [wordToGuess, setWordToGuess] = useState('');
 	const [word, setWord] = useState('');
-	const [mistakes, setMistakes] = useState(0);
 	const [usedLetters, setUsedLetters] = useState('');
+	const [mistakes, setMistakes] = useState(0);
 
 	const getRandomWord = async () =>
 		fetch('https://api.api-ninjas.com/v1/randomword?type=noun', {
