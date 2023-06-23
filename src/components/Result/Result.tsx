@@ -7,7 +7,7 @@ interface IResultProps {
 	mistakes: number;
 }
 
-export const Result = ({ isPlaying, setIsPlaying, word, mistakes }: IResultProps): JSX.Element | null => {
+export const Result = ({ isPlaying, setIsPlaying, word, mistakes }: IResultProps) => {
 	const [resultText, setResultText] = useState('');
 
 	useEffect(() => {

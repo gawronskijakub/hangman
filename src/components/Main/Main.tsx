@@ -6,7 +6,7 @@ import styles from './Main.module.scss';
 
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
-export const Main = (): JSX.Element => {
+export const Main = () => {
 	const mainRef = useRef<HTMLElement>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
@@ -83,7 +83,7 @@ export const Main = (): JSX.Element => {
 					Start
 				</button>
 			)}
-			{isLoading ? <p>Loading...</p> : <p className={styles.word}>{word}</p>}
+			{isLoading ? <p>Finding a perfect word...</p> : <p className={styles.word}>{word}</p>}
 			{isPlaying && <p>{`Mistakes: ${mistakes}`}</p>}
 			{isPlaying && (
 				<div className={styles.used}>
