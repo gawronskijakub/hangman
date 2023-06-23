@@ -2,10 +2,9 @@ import { KeyboardEvent, useRef, useState } from 'react';
 
 import { Mistakes } from '@/components/Mistakes';
 import { Result } from '@/components/Result';
+import { UsedLetters } from '@/components/UsedLetters';
 
 import styles from './Main.module.scss';
-
-const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
 export const Main = () => {
 	const mainRef = useRef<HTMLElement>(null);
@@ -15,6 +14,8 @@ export const Main = () => {
 	const [word, setWord] = useState('');
 	const [usedLetters, setUsedLetters] = useState('');
 	const [mistakes, setMistakes] = useState(0);
+
+	const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
 	const getRandomWord = async () =>
 		fetch('https://api.api-ninjas.com/v1/randomword?type=noun', {
@@ -87,19 +88,10 @@ export const Main = () => {
 			{isLoading ? <p>Finding a perfect word...</p> : <p className={styles.word}>{word}</p>}
 			{isPlaying && <Mistakes mistakes={mistakes} />}
 			{isPlaying && (
-				<div className={styles.used}>
-					Used letters:{' '}
-					<p>
-						{alphabet.split('').map((letter) => (
-							<span
-								key={letter}
-								className={usedLetters.includes(letter) ? (word.includes(letter) ? styles.correct : styles.wrong) : ''}
-							>
-								{letter}
-							</span>
-						))}
-					</p>
-				</div>
+				<UsedLetters
+					usedLetters={usedLetters}
+					word={word}
+				/>
 			)}
 			<Result
 				isPlaying={isPlaying}
