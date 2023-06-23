@@ -1,5 +1,6 @@
 import { KeyboardEvent, useRef, useState } from 'react';
 
+import { Mistakes } from '@/components/Mistakes';
 import { Result } from '@/components/Result';
 
 import styles from './Main.module.scss';
@@ -84,7 +85,7 @@ export const Main = () => {
 				</button>
 			)}
 			{isLoading ? <p>Finding a perfect word...</p> : <p className={styles.word}>{word}</p>}
-			{isPlaying && <p>{`Mistakes: ${mistakes}`}</p>}
+			{isPlaying && <Mistakes mistakes={mistakes} />}
 			{isPlaying && (
 				<div className={styles.used}>
 					Used letters:{' '}
