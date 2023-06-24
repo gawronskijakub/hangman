@@ -1,5 +1,6 @@
 import { KeyboardEvent, useRef, useState } from 'react';
 
+import { Loader } from '@/components/Loader';
 import { Mistakes } from '@/components/Mistakes';
 import { Result } from '@/components/Result';
 import { UsedLetters } from '@/components/UsedLetters';
@@ -85,7 +86,7 @@ export const Main = () => {
 					Start
 				</button>
 			)}
-			{isLoading ? <p>Finding a perfect word...</p> : <p className={styles.word}>{word}</p>}
+			{isLoading ? <Loader /> : <section className={styles.word}>{word}</section>}
 			{isPlaying && <Mistakes mistakes={mistakes} />}
 			{isPlaying && (
 				<UsedLetters
