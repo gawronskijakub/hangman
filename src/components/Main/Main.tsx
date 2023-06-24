@@ -4,6 +4,7 @@ import { Loader } from '@/components/Loader';
 import { Mistakes } from '@/components/Mistakes';
 import { Result } from '@/components/Result';
 import { UsedLetters } from '@/components/UsedLetters';
+import { Word } from '@/components/Word';
 
 import styles from './Main.module.scss';
 
@@ -86,7 +87,7 @@ export const Main = () => {
 					Start
 				</button>
 			)}
-			{isLoading ? <Loader /> : <section className={styles.word}>{word}</section>}
+			{isLoading ? <Loader /> : <Word word={word} />}
 			{isPlaying && <Mistakes mistakes={mistakes} />}
 			{isPlaying && (
 				<UsedLetters
