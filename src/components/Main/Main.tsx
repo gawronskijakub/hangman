@@ -1,5 +1,6 @@
 import { KeyboardEvent, useRef, useState } from 'react';
 
+import { Button } from '@/components/Button';
 import { Loader } from '@/components/Loader';
 import { Mistakes } from '@/components/Mistakes';
 import { Result } from '@/components/Result';
@@ -80,12 +81,10 @@ export const Main = () => {
 			ref={mainRef}
 		>
 			{!isPlaying && (
-				<button
-					className={styles.button}
+				<Button
+					text='Start'
 					onClick={startNewGame}
-				>
-					Start
-				</button>
+				/>
 			)}
 			{isLoading ? <Loader /> : <Word word={word} />}
 			{isPlaying && <Mistakes mistakes={mistakes} />}
@@ -102,14 +101,12 @@ export const Main = () => {
 				mistakes={mistakes}
 			/>
 			{!isPlaying && word !== wordToGuess && word.length > 0 && (
-				<button
-					className={styles.button}
+				<Button
+					text='Reveal the word!'
 					onClick={() => {
 						setWord(wordToGuess);
 					}}
-				>
-					Reveal the word!
-				</button>
+				/>
 			)}
 		</main>
 	);
