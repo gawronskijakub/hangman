@@ -18,8 +18,6 @@ export const Main = () => {
 	const [usedLetters, setUsedLetters] = useState('');
 	const [mistakes, setMistakes] = useState(0);
 
-	const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-
 	const getRandomWord = async () =>
 		fetch('https://api.api-ninjas.com/v1/randomword?type=noun', {
 			headers: {
@@ -29,10 +27,12 @@ export const Main = () => {
 
 	const guessLetter = (ev: KeyboardEvent) => {
 		const keyPressed = ev.key.toLowerCase();
+		const isInAlphabet = keyPressed.charCodeAt(0) >= 97 && keyPressed.charCodeAt(0) <= 122;
 
-		if (!isPlaying || !alphabet.includes(keyPressed) || usedLetters.includes(keyPressed)) {
+		if (!isPlaying || !isInAlphabet || usedLetters.includes(keyPressed)) {
 			return;
 		}
+
 		setUsedLetters((u) => `${u}${keyPressed}`);
 
 		if (!wordToGuess.includes(keyPressed)) {

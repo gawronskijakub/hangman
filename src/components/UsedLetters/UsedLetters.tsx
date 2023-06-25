@@ -12,7 +12,7 @@ export const UsedLetters = ({ usedLetters, word }: IUsedLettersProps) => {
 		<section className={styles.used}>
 			Used letters:{' '}
 			<p>
-				{alphabet.split('').map((letter) => (
+				{[...alphabet].map((letter) => (
 					<span
 						key={letter}
 						className={usedLetters.includes(letter) ? (word.includes(letter) ? styles.correct : styles.wrong) : ''}
