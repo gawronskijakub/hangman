@@ -87,12 +87,14 @@ export const Main = () => {
 				/>
 			)}
 			{isLoading ? <Loader /> : <Word word={word} />}
-			{isPlaying && <Mistakes mistakes={mistakes} />}
 			{isPlaying && (
-				<UsedLetters
-					usedLetters={usedLetters}
-					word={word}
-				/>
+				<>
+					<Mistakes mistakes={mistakes} />
+					<UsedLetters
+						usedLetters={usedLetters}
+						word={word}
+					/>
+				</>
 			)}
 			<Result
 				isPlaying={isPlaying}
