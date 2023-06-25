@@ -82,7 +82,7 @@ export const Main = () => {
 		>
 			{!isPlaying && (
 				<Button
-					text='Start'
+					text='Start New Game'
 					onClick={startNewGame}
 				/>
 			)}

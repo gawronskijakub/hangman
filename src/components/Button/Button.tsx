@@ -9,7 +9,7 @@ interface IButtonProps {
 export const Button = ({ classList, onClick, text }: IButtonProps) => {
 	return (
 		<button
-			className={`${classList?.join(' ')} ${styles.button}`}
+			className={`${classList ? classList?.join(' ') : ''} ${styles.button}`}
 			onClick={onClick}
 		>
 			{text}
