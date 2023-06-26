@@ -5,9 +5,5 @@ interface IMistakesProps {
 }
 
 export const Mistakes = ({ mistakes }: IMistakesProps) => {
-	return (
-		<section className={styles.miastakes}>
-			<p>{`Mistakes: ${mistakes}`}</p>
-		</section>
-	);
+	return <section className={styles.miastakes}>{`Mistakes: ${mistakes}`}</section>;
 };

@@ -5,5 +5,5 @@ interface IWordProps {
 }
 
 export const Word = ({ word }: IWordProps) => {
-	return <section className={styles.word}>{word}</section>;
+	return word ? <section className={styles.word}>{word}</section> : null;
 };

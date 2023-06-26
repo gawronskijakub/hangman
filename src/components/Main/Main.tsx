@@ -80,12 +80,6 @@ export const Main = () => {
 			onKeyDown={guessLetter}
 			ref={mainRef}
 		>
-			{!isPlaying && (
-				<Button
-					text='Start New Game'
-					onClick={startNewGame}
-				/>
-			)}
 			{isLoading ? <Loader /> : <Word word={word} />}
 			{isPlaying && (
 				<>
@@ -102,6 +96,12 @@ export const Main = () => {
 				word={word}
 				mistakes={mistakes}
 			/>
+			{!isPlaying && word === wordToGuess && (
+				<Button
+					text='Start New Game'
+					onClick={startNewGame}
+				/>
+			)}
 			{!isPlaying && word !== wordToGuess && word.length > 0 && (
 				<Button
 					text='Reveal the word!'

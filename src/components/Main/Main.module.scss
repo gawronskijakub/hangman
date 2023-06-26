@@ -5,6 +5,11 @@
 	justify-content: center;
 	align-items: center;
 	gap: 40px;
+
+	> section {
+		width: 100%;
+		text-align: center;
+	}
 }
 
 .word {
