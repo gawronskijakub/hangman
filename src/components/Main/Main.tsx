@@ -1,4 +1,4 @@
-import { KeyboardEvent, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/Button';
 import { Loader } from '@/components/Loader';
@@ -6,6 +6,7 @@ import { Mistakes } from '@/components/Mistakes';
 import { Result } from '@/components/Result';
 import { UsedLetters } from '@/components/UsedLetters';
 import { Word } from '@/components/Word';
+import { GAME_RESULTS } from '@/constants';
 
 import styles from './Main.module.scss';
 
@@ -17,6 +18,20 @@ export const Main = () => {
 	const [word, setWord] = useState('');
 	const [usedLetters, setUsedLetters] = useState('');
 	const [mistakes, setMistakes] = useState(0);
+
+	const [gameResult, setGameResult] = useState(GAME_RESULTS.initial);
+
+	useEffect(() => {
+		if (!isPlaying) return;
+
+		if (word.length > 0 && word === wordToGuess) {
+			setIsPlaying(false);
+			setGameResult(GAME_RESULTS.hasWon);
+		} else if (mistakes === 7) {
+			setIsPlaying(false);
+			setGameResult(GAME_RESULTS.hasLost);
+		}
+	}, [word, mistakes]);
 
 	const getRandomWord = async () =>
 		fetch('https://api.api-ninjas.com/v1/randomword?type=noun', {
@@ -54,6 +69,7 @@ export const Main = () => {
 	const startNewGame = async () => {
 		setIsLoading(true);
 		setIsPlaying(true);
+		setGameResult(GAME_RESULTS.inGame);
 		setWord('');
 		setUsedLetters('');
 		setMistakes(0);
@@ -92,9 +108,7 @@ export const Main = () => {
 			)}
 			<Result
 				isPlaying={isPlaying}
-				setIsPlaying={setIsPlaying}
-				word={word}
-				mistakes={mistakes}
+				gameResult={gameResult}
 			/>
 			{!isPlaying && word === wordToGuess && (
 				<Button
