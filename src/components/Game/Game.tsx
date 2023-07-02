@@ -8,10 +8,10 @@ import { UsedLetters } from '@/components/UsedLetters';
 import { Word } from '@/components/Word';
 import { GAME_RESULTS } from '@/constants';
 
-import styles from './Main.module.scss';
+import styles from './Game.module.scss';
 
-export const Main = () => {
-	const mainRef = useRef<HTMLElement>(null);
+export const Game = () => {
+	const gameRef = useRef<HTMLElement>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [wordToGuess, setWordToGuess] = useState('');
@@ -74,7 +74,7 @@ export const Main = () => {
 		setUsedLetters('');
 		setMistakes(0);
 
-		mainRef.current!.focus();
+		gameRef.current!.focus();
 
 		await getRandomWord()
 			.then((res) => res.json())
@@ -91,10 +91,10 @@ export const Main = () => {
 
 	return (
 		<main
-			className={styles.main}
+			className={styles.game}
 			tabIndex={-1}
 			onKeyDown={guessLetter}
-			ref={mainRef}
+			ref={gameRef}
 		>
 			{isLoading ? <Loader /> : <Word word={word} />}
 			{isPlaying && (
