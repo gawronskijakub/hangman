@@ -14,10 +14,10 @@ export const Game = () => {
 	const gameRef = useRef<HTMLElement>(null);
 	const [gameStatus, setGameStatus] = useState(GAME_RESULTS.initial);
 	const [isLoading, setIsLoading] = useState(false);
-	const [wordToGuess, setWordToGuess] = useState('');
-	const [word, setWord] = useState('');
-	const [usedLetters, setUsedLetters] = useState('');
 	const [mistakes, setMistakes] = useState(0);
+	const [word, setWord] = useState('');
+	const [wordToGuess, setWordToGuess] = useState('');
+	const [usedLetters, setUsedLetters] = useState('');
 
 	useEffect(() => {
 		if (gameStatus !== GAME_RESULTS.inGame) return;
@@ -66,22 +66,23 @@ export const Game = () => {
 		setIsLoading(true);
 		setGameStatus(GAME_RESULTS.inGame);
 		setWord('');
+		setWordToGuess('');
 		setUsedLetters('');
 		setMistakes(0);
 
 		gameRef.current!.focus();
 
-		await getRandomWord()
-			.then((res) => res.json())
-			.then(({ word }) => {
-				setWordToGuess(word.toLowerCase());
+		try {
+			const response = await getRandomWord();
+			const json = await response.json();
+			const { word } = json;
 
-				return word;
-			})
-			.then((resultWord) => {
-				setWord('_'.repeat(resultWord.length));
-				setIsLoading(false);
-			});
+			setWordToGuess(word.toLowerCase());
+			setWord('_'.repeat(word.length));
+			setIsLoading(false);
+		} catch (e) {
+			console.error(e);
+		}
 	};
 
 	return (
