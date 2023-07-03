@@ -1,14 +1,13 @@
 import { GAME_RESULTS } from '@/constants';
 
 interface IResultProps {
-	isPlaying: boolean;
-	gameResult: number;
+	gameStatus: number;
 }
 
-export const Result = ({ isPlaying, gameResult }: IResultProps) => {
-	if (isPlaying || gameResult === GAME_RESULTS.initial || gameResult === GAME_RESULTS.inGame) return null;
+export const Result = ({ gameStatus }: IResultProps) => {
+	if (gameStatus === GAME_RESULTS.initial || gameStatus === GAME_RESULTS.inGame) return null;
 
-	const resultText = gameResult === GAME_RESULTS.hasWon ? 'Congratulations' : 'You lost...';
+	const resultText = gameStatus === GAME_RESULTS.hasWon ? 'Congratulations' : 'You lost...';
 
 	return <section>{resultText}</section>;
 };

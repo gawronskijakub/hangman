@@ -12,24 +12,20 @@ import styles from './Game.module.scss';
 
 export const Game = () => {
 	const gameRef = useRef<HTMLElement>(null);
+	const [gameStatus, setGameStatus] = useState(GAME_RESULTS.initial);
 	const [isLoading, setIsLoading] = useState(false);
-	const [isPlaying, setIsPlaying] = useState(false);
 	const [wordToGuess, setWordToGuess] = useState('');
 	const [word, setWord] = useState('');
 	const [usedLetters, setUsedLetters] = useState('');
 	const [mistakes, setMistakes] = useState(0);
 
-	const [gameResult, setGameResult] = useState(GAME_RESULTS.initial);
-
 	useEffect(() => {
-		if (!isPlaying) return;
+		if (gameStatus !== GAME_RESULTS.inGame) return;
 
 		if (word.length > 0 && word === wordToGuess) {
-			setIsPlaying(false);
-			setGameResult(GAME_RESULTS.hasWon);
+			setGameStatus(GAME_RESULTS.hasWon);
 		} else if (mistakes === 7) {
-			setIsPlaying(false);
-			setGameResult(GAME_RESULTS.hasLost);
+			setGameStatus(GAME_RESULTS.hasLost);
 		}
 	}, [word, mistakes]);
 
@@ -44,7 +40,7 @@ export const Game = () => {
 		const keyPressed = ev.key.toLowerCase();
 		const isInAlphabet = keyPressed.charCodeAt(0) >= 97 && keyPressed.charCodeAt(0) <= 122;
 
-		if (!isPlaying || !isInAlphabet || usedLetters.includes(keyPressed)) {
+		if (gameStatus !== GAME_RESULTS.inGame || !isInAlphabet || usedLetters.includes(keyPressed)) {
 			return;
 		}
 
@@ -68,8 +64,7 @@ export const Game = () => {
 
 	const startNewGame = async () => {
 		setIsLoading(true);
-		setIsPlaying(true);
-		setGameResult(GAME_RESULTS.inGame);
+		setGameStatus(GAME_RESULTS.inGame);
 		setWord('');
 		setUsedLetters('');
 		setMistakes(0);
@@ -90,14 +85,14 @@ export const Game = () => {
 	};
 
 	return (
-		<main
+		<section
 			className={styles.game}
 			tabIndex={-1}
 			onKeyDown={guessLetter}
 			ref={gameRef}
 		>
 			{isLoading ? <Loader /> : <Word word={word} />}
-			{isPlaying && (
+			{gameStatus === GAME_RESULTS.inGame && (
 				<>
 					<Mistakes mistakes={mistakes} />
 					<UsedLetters
@@ -106,24 +101,21 @@ export const Game = () => {
 					/>
 				</>
 			)}
-			<Result
-				isPlaying={isPlaying}
-				gameResult={gameResult}
+			<Result gameStatus={gameStatus} />
+			<Button
+				text='Start New Game'
+				onClick={startNewGame}
+				hidden={gameStatus === GAME_RESULTS.inGame}
+				disabled={word !== wordToGuess}
 			/>
-			{!isPlaying && word === wordToGuess && (
-				<Button
-					text='Start New Game'
-					onClick={startNewGame}
-				/>
-			)}
-			{!isPlaying && word !== wordToGuess && word.length > 0 && (
-				<Button
-					text='Reveal the word!'
-					onClick={() => {
-						setWord(wordToGuess);
-					}}
-				/>
-			)}
-		</main>
+			<Button
+				text='Reveal the word!'
+				onClick={() => {
+					setWord(wordToGuess);
+				}}
+				hidden={gameStatus === GAME_RESULTS.initial}
+				disabled={gameStatus !== GAME_RESULTS.hasLost || word === wordToGuess}
+			/>
+		</section>
 	);
 };
