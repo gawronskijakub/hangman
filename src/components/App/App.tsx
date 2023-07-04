@@ -1,9 +1,13 @@
-import { Main } from '@/components/Main';
+import { Game } from '@/components/Game';
+import { Header } from '@/components/Header';
 
-export const App = (): JSX.Element => {
+import styles from './App.module.scss';
+
+export const App = () => {
 	return (
-		<div className='app'>
-			<Main />
+		<div className={styles.app}>
+			<Header />
+			<Game />
 		</div>
 	);
 };

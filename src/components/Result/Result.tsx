@@ -1,24 +1,13 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { GAME_RESULTS } from '@/constants';
 
 interface IResultProps {
-	isPlaying: boolean;
-	setIsPlaying: Dispatch<SetStateAction<boolean>>;
-	word: string;
-	mistakes: number;
+	gameStatus: number;
 }
 
-export const Result = ({ isPlaying, setIsPlaying, word, mistakes }: IResultProps): JSX.Element | null => {
-	const [resultText, setResultText] = useState('');
+export const Result = ({ gameStatus }: IResultProps) => {
+	if (gameStatus === GAME_RESULTS.initial || gameStatus === GAME_RESULTS.inGame) return null;
 
-	useEffect(() => {
-		if (mistakes === 7) {
-			setResultText('You lost...');
-			setIsPlaying(false);
-		} else if (word.length > 0 && !word.includes('_')) {
-			setResultText('Congratulations');
-			setIsPlaying(false);
-		}
-	}, [word, mistakes]);
+	const resultText = gameStatus === GAME_RESULTS.hasWon ? 'Congratulations' : 'You lost...';
 
-	return !isPlaying && resultText ? <p>{resultText}</p> : null;
+	return <section>{resultText}</section>;
 };

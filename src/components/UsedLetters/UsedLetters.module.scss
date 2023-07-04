@@ -1,0 +1,15 @@
+.used {
+	text-align: center;
+
+	span {
+		letter-spacing: 3px;
+	}
+}
+
+.wrong {
+	color: var(--red);
+}
+
+.correct {
+	color: var(--green);
+}
