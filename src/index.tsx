@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+import 'typeface-lilita-one';
+import 'typeface-poppins';
+import 'typeface-roboto-mono';
+
 import { App } from '@/components/App';
+
 import './index.scss';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

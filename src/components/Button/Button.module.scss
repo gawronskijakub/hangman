@@ -1,5 +1,5 @@
 .button {
-	padding: 12px 24px;
+	padding: 8px 16px;
 	border-radius: 24px;
 	border: 2px solid var(--black);
 	font-size: 1.25rem;
@@ -15,10 +15,10 @@
 	&:disabled {
 		border: 2px solid var(--gray);
 		color: var(--gray);
+		cursor: not-allowed;
 
 		&:hover {
 			background-color: var(--light-gray);
-			cursor: default;
 		}
 	}
 }

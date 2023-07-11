@@ -1,3 +1,5 @@
+import { ALPHABET } from '@/constants';
+
 import styles from './UsedLetters.module.scss';
 
 interface IUsedLettersProps {
@@ -6,21 +8,31 @@ interface IUsedLettersProps {
 }
 
 export const UsedLetters = ({ usedLetters, word }: IUsedLettersProps) => {
-	const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+	const isCorrect = (letter: string) => usedLetters.includes(letter) && word.includes(letter);
+	const isWrong = (letter: string) => usedLetters.includes(letter) && !word.includes(letter);
 
 	return (
 		<section className={styles.used}>
-			Used letters:{' '}
-			<p>
-				{[...alphabet].map((letter) => (
-					<span
-						key={letter}
-						className={usedLetters.includes(letter) ? (word.includes(letter) ? styles.correct : styles.wrong) : ''}
+			<p className={styles.title}>Used letters:</p>
+			<div className={styles.letters}>
+				{[...ALPHABET.QWERTY_ROWS].map((row) => (
+					<div
+						className={styles.row}
+						key={row}
 					>
-						{letter}
-					</span>
+						{[...row].map((letter) => (
+							<button
+								className={`${styles.letter} ${
+									isCorrect(letter) ? styles.correct : isWrong(letter) ? styles.wrong : ''
+								}`}
+								key={letter}
+							>
+								{letter}
+							</button>
+						))}
+					</div>
 				))}
-			</p>
+			</div>
 		</section>
 	);
 };

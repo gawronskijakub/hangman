@@ -12,7 +12,7 @@ export const startNewGame = async ({
 	setUsedLetters,
 }: NewGameProps) => {
 	setIsLoading(true);
-	setGameStatus(GAME_RESULTS.inGame);
+	setGameStatus(GAME_RESULTS.isPlaying);
 	setWord('');
 	setWordToGuess('');
 	setUsedLetters('');
