@@ -11,7 +11,7 @@ export const useGame = () => {
 	const [usedLetters, setUsedLetters] = useState('');
 
 	useEffect(() => {
-		if (gameStatus !== GAME_RESULTS.inGame) return;
+		if (gameStatus !== GAME_RESULTS.isPlaying) return;
 
 		if (word.length > 0 && word === wordToGuess) {
 			setGameStatus(GAME_RESULTS.hasWon);

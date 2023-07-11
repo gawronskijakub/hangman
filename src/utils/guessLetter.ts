@@ -1,6 +1,6 @@
 import { KeyboardEvent } from 'react';
 
-import { GAME_RESULTS } from '@/constants';
+import { ALPHABET, GAME_RESULTS } from '@/constants';
 import { GuessLetterProps } from '@/types';
 
 export const guessLetter = (
@@ -8,9 +8,11 @@ export const guessLetter = (
 	{ gameStatus, setMistakes, setWord, wordToGuess, usedLetters, setUsedLetters }: GuessLetterProps
 ) => {
 	const keyPressed = ev.key.toLowerCase();
-	const isInAlphabet = keyPressed.charCodeAt(0) >= 97 && keyPressed.charCodeAt(0) <= 122;
+	const isInAlphabet =
+		keyPressed.charCodeAt(0) >= ALPHABET.ASCII_KEYCODES.LOWERCASE_A &&
+		keyPressed.charCodeAt(0) <= ALPHABET.ASCII_KEYCODES.LOWERCASE_Z;
 
-	if (gameStatus !== GAME_RESULTS.inGame || !isInAlphabet || usedLetters.includes(keyPressed)) {
+	if (gameStatus !== GAME_RESULTS.isPlaying || !isInAlphabet || usedLetters.includes(keyPressed)) {
 		return;
 	}
 
